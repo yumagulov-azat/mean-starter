@@ -4,7 +4,7 @@ import * as morgan from 'morgan';
 import * as mongoose from 'mongoose';
 import * as path from 'path';
 
-import Routes from './routes';
+import Routes from './api/v1/routes';
 
 const app = express();
 dotenv.load({ path: '.env' });
@@ -26,7 +26,7 @@ mongoose.connect(mongodbURI)
   .then(db => {
     console.log('Connected to MongoDB');
 
-    const routes = new Routes(app);
+    Routes.setRoutes(app);
 
     app.get('/*', function(req, res) {
       res.sendFile(path.join(__dirname, '../public/index.html'));
