@@ -1,6 +1,8 @@
-abstract class BaseCtrl {
+import { Model } from 'mongoose';
 
-  abstract model: any;
+export default abstract class BaseController {
+
+  abstract model: Model<any>;
 
   /**
    * Get all items
@@ -34,8 +36,8 @@ abstract class BaseCtrl {
    * @param req
    * @param res
    */
-  public get = (req, res) => {
-    this.model.findOne({_id: req.params.id}, (err, item) => {
+  public getById = (req, res) => {
+    this.model.findById({_id: req.params.id}, (err, item) => {
       if (!this.checkErrors(res, err)) {
         res.status(200).json(item);
       }
@@ -48,7 +50,6 @@ abstract class BaseCtrl {
    * @param res
    */
   public update = (req, res) => {
-    console.log(req.params)
     this.model.findOneAndUpdate({_id: req.params.id}, req.body, (err) => {
       if (!this.checkErrors(res, err)) {
         res.sendStatus(200);
@@ -91,6 +92,3 @@ abstract class BaseCtrl {
     }
   }
 }
-
-
-export default BaseCtrl;

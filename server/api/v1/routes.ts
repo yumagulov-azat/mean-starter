@@ -1,8 +1,8 @@
-// Routes
-import booksRouter from './routes/books';
+import { ThingRoutes } from './thing/thing.route';
+
 
 export default class Routes {
-  static setRoutes(app) {
-    app.use('/api/v1/books', booksRouter);
+  static init(app) {
+    ThingRoutes.init(app);
   }
 }
