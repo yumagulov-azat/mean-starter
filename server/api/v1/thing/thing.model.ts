@@ -1,14 +1,17 @@
 import * as mongoose from 'mongoose';
-import { Model } from 'mongoose';
+import { Model, Schema } from 'mongoose';
 
+export interface IThing extends mongoose.Document {
+  name: string;
+}
 
-const thingShecma = new mongoose.Schema({
+const ThingSchema: Schema = new mongoose.Schema({
   name: {
     type: String,
     required: true
   }
 });
 
-const Thing: Model<any> = mongoose.model('thing', thingShecma);
+const Thing: Model<IThing> = mongoose.model('Thing', ThingSchema);
 
-export default Thing;
+export { Thing };

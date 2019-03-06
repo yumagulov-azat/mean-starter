@@ -2,20 +2,22 @@ import * as express from 'express';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
-import { RoutesConfig } from './config/routes.config';
+import { ExpressConfig } from './config/express.config';
 import { DBConfig } from './config/db.config';
-import Routes from './api/v1/routes';
+import { ApiRoutes } from './api/v1/api.routes';
+import { PassportConfig } from './config/passport.config';
 
 
 dotenv.load({path: '.env'});
 const app: express.Application = express();
 
-RoutesConfig.init(app);
-Routes.init(app);
 DBConfig.init();
+ExpressConfig.init(app);
+PassportConfig.init(app);
+ApiRoutes.init(app);
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+  res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 
 if (!module.parent) {

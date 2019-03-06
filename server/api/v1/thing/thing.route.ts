@@ -1,24 +1,21 @@
 import * as express from 'express';
+import * as passport from 'passport';
+import { ThingController } from './thing.controller';
 
-import ThingController from './thing.controller';
-const thingCtrl = new ThingController;
 
-export class ThingRoutes {
+const ThingCtrl = new ThingController;
+const ThingRouter: express.Router = express.Router();
 
-  static init(app: express.Application) {
-    const router: express.Router = express.Router();
 
-    router
-      .route('/')
-      .get(thingCtrl.getAll)
-      .post(thingCtrl.insert);
+ThingRouter
+  .route('/')
+  .get(passport.authenticate('jwt', {session: false}), ThingCtrl.getAll)
+  .post(passport.authenticate('jwt', {session: false}), ThingCtrl.save);
 
-    router
-      .route('/:id')
-      .get(thingCtrl.getById)
-      .put(thingCtrl.update)
-      .delete(thingCtrl.delete);
+ThingRouter
+  .route('/:id')
+  .get(passport.authenticate('jwt', {session: false}), ThingCtrl.getById)
+  .put(passport.authenticate('jwt', {session: false}), ThingCtrl.updateById)
+  .delete(passport.authenticate('jwt', {session: false}), ThingCtrl.deleteById);
 
-    app.use('/api/v1/thing', router);
-  }
-}
+export { ThingRouter };

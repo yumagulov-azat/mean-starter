@@ -1,6 +1,7 @@
 import { Model } from 'mongoose';
 
-export default abstract class BaseController {
+
+export abstract class BaseController {
 
   abstract model: Model<any>;
 
@@ -11,22 +12,8 @@ export default abstract class BaseController {
    */
   public getAll = (req, res) => {
     this.model.find({}, (err, docs) => {
-      if (!this.checkErrors(res, err)) {
+      if (!this.checkMongoErrors(res, err)) {
         res.status(200).json(docs);
-      }
-    });
-  }
-
-  /**
-   * Insert new item
-   * @param req
-   * @param res
-   */
-  public insert = (req, res) => {
-    const obj = new this.model(req.body);
-    obj.save((err, item) => {
-      if (!this.checkErrors(res, err)) {
-        res.status(200).json(item);
       }
     });
   }
@@ -37,9 +24,23 @@ export default abstract class BaseController {
    * @param res
    */
   public getById = (req, res) => {
-    this.model.findById({_id: req.params.id}, (err, item) => {
-      if (!this.checkErrors(res, err)) {
-        res.status(200).json(item);
+    this.model.findById(req.params.id, (err, doc) => {
+      if (!this.checkMongoErrors(res, err)) {
+        res.status(200).json(doc);
+      }
+    });
+  }
+
+  /**
+   * Insert new item
+   * @param req
+   * @param res
+   */
+  public save = (req, res) => {
+    const obj = new this.model(req.body);
+    obj.save((err, item) => {
+      if (!this.checkMongoErrors(res, err)) {
+        res.status(201).json(item);
       }
     });
   }
@@ -49,10 +50,10 @@ export default abstract class BaseController {
    * @param req
    * @param res
    */
-  public update = (req, res) => {
-    this.model.findOneAndUpdate({_id: req.params.id}, req.body, (err) => {
-      if (!this.checkErrors(res, err)) {
-        res.sendStatus(200);
+  public updateById = (req, res) => {
+    this.model.findByIdAndUpdate(req.params.id, req.body, { new: true }, (err, doc) => {
+      if (!this.checkMongoErrors(res, err)) {
+        res.status(200).json(doc);
       }
     });
   }
@@ -62,30 +63,35 @@ export default abstract class BaseController {
    * @param req
    * @param res
    */
-  public delete = (req, res) => {
-    this.model.findOneAndRemove({_id: req.params.id}, (err) => {
-      if (!this.checkErrors(res, err)) {
-        res.sendStatus(200);
+  public deleteById = (req, res) => {
+    this.model.findByIdAndDelete(req.params.id, (err, docs) => {
+      if (!docs) {
+        res.status(404).json({
+          status: false,
+          msg: 'Document not found'
+        });
+        return;
+      } else {
+        res.sendStatus(204);
       }
     });
   }
 
   /**
-   * Check errors
+   * Check mongo errors
    * @param res
    * @param err
    * @returns {boolean}
    */
-  private checkErrors(res, err) {
+  public checkMongoErrors(res, err): boolean {
     if (err) {
       switch (err.name) {
         case 'ValidationError':
-          res.status(400).json({error: 'Validation error'});
+          res.status(400).json({status: false, error: 'Validation error'});
           break;
         default:
-          res.status(400).json({error: 'Error'});
+          res.status(400).json({status: false, error: 'Error'});
       }
-      console.error(err)
       return true;
     } else {
       return false;
