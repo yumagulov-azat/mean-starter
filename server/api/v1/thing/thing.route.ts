@@ -1,21 +1,44 @@
 import * as express from 'express';
 import * as passport from 'passport';
 import { ThingController } from './thing.controller';
+import { IBaseRoute } from '../helpers/base/base.route';
+import { ThingValidation } from './thing.validation';
 
+export class ThingRoute implements IBaseRoute {
 
-const ThingCtrl = new ThingController;
-const ThingRouter: express.Router = express.Router();
+  private expressRouter: express.Router = express.Router();
+  private controller: ThingController = new ThingController();
+  private validation: ThingValidation = new ThingValidation();
 
+  public get router(): express.Router {
+    this.expressRouter
+      .route('/')
+      .get(
+        passport.authenticate('jwt', {session: false}),
+        this.controller.getAll
+      )
+      .post(
+        passport.authenticate('jwt', {session: false}),
+        this.validation.save,
+        this.controller.save
+      );
 
-ThingRouter
-  .route('/')
-  .get(passport.authenticate('jwt', {session: false}), ThingCtrl.getAll)
-  .post(passport.authenticate('jwt', {session: false}), ThingCtrl.save);
+    this.expressRouter
+      .route('/:id')
+      .get(
+        passport.authenticate('jwt', {session: false}),
+        this.controller.getById
+      )
+      .put(
+        passport.authenticate('jwt', {session: false}),
+        this.validation.save,
+        this.controller.updateById
+      )
+      .delete(
+        passport.authenticate('jwt', {session: false}),
+        this.controller.deleteById
+      );
 
-ThingRouter
-  .route('/:id')
-  .get(passport.authenticate('jwt', {session: false}), ThingCtrl.getById)
-  .put(passport.authenticate('jwt', {session: false}), ThingCtrl.updateById)
-  .delete(passport.authenticate('jwt', {session: false}), ThingCtrl.deleteById);
-
-export { ThingRouter };
+    return this.expressRouter;
+  }
+}

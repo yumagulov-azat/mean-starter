@@ -1,6 +1,9 @@
-import { BaseController } from '../helpers/base.controller';
-import { Thing, IThing } from './thing.model';
+import { Thing } from './thing.model';
+import { BaseController } from '../helpers/base/base.controller';
+
 
 export class ThingController extends BaseController {
-  model = Thing;
+  constructor() {
+    super(Thing);
+  }
 }

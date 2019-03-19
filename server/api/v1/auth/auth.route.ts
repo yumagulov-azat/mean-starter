@@ -1,16 +1,23 @@
 import * as express from 'express';
 import { AuthController } from './auth.controller';
+import { IBaseRoute } from '../helpers/base/base.route';
+import { AuthValidation } from './auth.validation';
 
+export class AuthRoute implements IBaseRoute {
 
-const AuthCtrl = new AuthController();
-const AuthRouter: express.Router = express.Router();
+  private expressRouter: express.Router = express.Router();
+  private controller: AuthController = new AuthController();
+  private validation: AuthValidation = new AuthValidation();
 
-AuthRouter
-  .route('/login')
-  .post(AuthCtrl.login);
+  public get router(): express.Router {
+    this.expressRouter
+      .route('/login')
+      .post(this.validation.login, this.controller.login);
 
-AuthRouter
-  .route('/registration')
-  .post(AuthCtrl.register);
+    this.expressRouter
+      .route('/registration')
+      .post(this.validation.registration, this.controller.register);
 
-export { AuthRouter };
+    return this.expressRouter;
+  }
+}

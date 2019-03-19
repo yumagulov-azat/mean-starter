@@ -4,13 +4,18 @@ import * as bcrypt from 'bcrypt-nodejs';
 
 
 export interface IUser extends mongoose.Document {
+  name: string;
   email: string;
   password: string;
+
   comparePassword(password: string, cg: Function): any;
 }
 
 
 const UserSchema: Schema = new Schema({
+  name: {
+    type: String
+  },
   email: {
     type: String,
     unique: true,
@@ -19,8 +24,9 @@ const UserSchema: Schema = new Schema({
   password: {
     type: String,
     required: true
-  }
+  },
 });
+
 
 /**
  * Generate hash
@@ -46,17 +52,18 @@ UserSchema.pre<IUser>('save', function (next) {
   }
 });
 
+
 /**
  * Verify password
  * @param password
  * @param cb
  */
-UserSchema.methods.comparePassword = function (password, cb) {
+(UserSchema.methods as IUser).comparePassword = function (password, callback) {
   bcrypt.compare(password, this.password, function (err, isMatch) {
     if (err) {
-      return cb(err);
+      return callback(err);
     }
-    cb(null, isMatch);
+    callback(null, isMatch);
   });
 };
 

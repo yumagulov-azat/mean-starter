@@ -1,18 +1,25 @@
 import * as express from 'express';
+import { IBaseRoute } from '../helpers/base/base.route';
 import { UserController } from './user.controller';
+import { UserValidation } from './user.validation';
 
+export class UserRoute implements IBaseRoute {
 
-const UserCtrl = new UserController;
-const UserRouter: express.Router = express.Router();
+  private expressRouter: express.Router = express.Router();
+  private controller: UserController = new UserController();
+  private validation: UserValidation = new UserValidation();
 
-UserRouter
-  .route('/')
-  .get(UserCtrl.getAll);
+  public get router(): express.Router {
+    this.expressRouter
+      .route('/')
+      .get(this.controller.getAll);
 
-UserRouter
-  .route('/:id')
-  .get(UserCtrl.getById)
-  .put(UserCtrl.updateById)
-  .delete(UserCtrl.deleteById);
+    this.expressRouter
+      .route('/:id')
+      .get(this.controller.getById)
+      .put(this.validation.update, this.controller.updateById)
+      .delete(this.controller.deleteById);
 
-export { UserRouter };
+    return this.expressRouter;
+  }
+}

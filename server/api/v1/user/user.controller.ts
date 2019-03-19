@@ -1,23 +1,21 @@
 import * as jwt from 'jsonwebtoken';
-import { BaseController } from '../helpers/base.controller';
+import { BaseController } from '../helpers/base/base.controller';
 import { User, IUser } from './user.model';
 
 
 export class UserController extends BaseController {
 
-  model = User;
+  constructor() {
+    super(User);
+  }
 
+  /**
+   * Create new user
+   * @param req
+   * @param res
+   * @param next
+   */
   public register = (req, res, next) => {
-    if (!req.body.email) {
-      res.json({success: false, msg: 'Please pass email'});
-      return;
-    }
-
-    if (!req.body.password) {
-      res.json({success: false, msg: 'Please pass password'});
-      return;
-    }
-
     const newUser = new User({
       email: req.body.email,
       password: req.body.password
@@ -27,15 +25,21 @@ export class UserController extends BaseController {
       .then((user: IUser) => {
         res.status(201).json(user);
       })
-    .catch(err => {
-      if (err && err.code === 11000) {
-        res.json({success: false, msg: 'User already exists'});
-        return;
-      }
-      res.json({success: false, msg: 'Error'});
-    });
-  }
+      .catch(err => {
+        if (err && err.code === 11000) {
+          res.json({success: false, msg: 'User already exists'});
+          return;
+        }
+        res.json({success: false, msg: 'Error'});
+      });
+  };
 
+  /**
+   * Login
+   * @param req
+   * @param res
+   * @param next
+   */
   public login = (req, res, next) => {
     User.findOne({
       email: req.body.email
@@ -58,6 +62,6 @@ export class UserController extends BaseController {
       .catch(err => {
         throw err;
       });
-  }
+  };
 }
 
