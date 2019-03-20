@@ -4,6 +4,7 @@ import * as morgan from 'morgan';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as helmet from 'helmet';
+import * as compression from 'compression';
 
 
 export class ExpressConfig {
@@ -16,6 +17,7 @@ export class ExpressConfig {
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(cookieParser());
     app.use(helmet());
+    app.use(compression());
     app.use('/', express.static(path.join(__dirname, '../client')));
   }
 }
