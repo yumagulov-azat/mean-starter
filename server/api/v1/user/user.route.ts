@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { IBaseRoute } from '../helpers/base/base.route';
+import { IBaseRoute } from '../helpers/base-endpoint';
 import { UserController } from './user.controller';
 import { UserValidation } from './user.validation';
 

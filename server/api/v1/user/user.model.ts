@@ -56,7 +56,7 @@ UserSchema.pre<IUser>('save', function (next) {
 /**
  * Verify password
  * @param password
- * @param cb
+ * @param callback
  */
 (UserSchema.methods as IUser).comparePassword = function (password, callback) {
   bcrypt.compare(password, this.password, function (err, isMatch) {

@@ -1,6 +1,6 @@
 import { Model } from 'mongoose';
 import { Request, Response } from 'express';
-import { ResponseErrorType, ResponseService } from '../response.service';
+import { ResponseService } from '../response.service';
 
 
 export class BaseController {
