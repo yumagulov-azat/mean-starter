@@ -1,4 +1,6 @@
 import { Model } from 'mongoose';
+import { Request, Response } from 'express';
+import { ResponseErrorType, ResponseService } from '../response.service';
 
 
 export class BaseController {
@@ -14,9 +16,11 @@ export class BaseController {
    * @param req
    * @param res
    */
-  public getAll = (req, res) => {
+  public getAll = (req: Request, res: Response): void => {
     this.model.find({}, (err, docs) => {
-      res.status(200).json(docs);
+      new ResponseService(res)
+        .status(200)
+        .success(docs);
     });
   };
 
@@ -25,9 +29,11 @@ export class BaseController {
    * @param req
    * @param res
    */
-  public getById = (req, res) => {
+  public getById = (req: Request, res: Response): void => {
     this.model.findById(req.params.id, (err, doc) => {
-      res.status(200).json(doc);
+      new ResponseService(res)
+        .status(200)
+        .success(doc);
     });
   };
 
@@ -36,10 +42,12 @@ export class BaseController {
    * @param req
    * @param res
    */
-  public save = (req, res) => {
+  public save = (req: Request, res: Response): void => {
     const obj = new this.model(req.body);
-    obj.save((err, item) => {
-      res.status(201).json(item);
+    obj.save((err, doc) => {
+      new ResponseService(res)
+        .status(201)
+        .success(doc);
     });
   };
 
@@ -48,9 +56,11 @@ export class BaseController {
    * @param req
    * @param res
    */
-  public updateById = (req, res) => {
+  public updateById = (req: Request, res: Response): void => {
     this.model.findOneAndUpdate(req.params.id, req.body, {new: true}, (err, doc) => {
-      res.status(200).json(doc);
+      new ResponseService(res)
+        .status(200)
+        .success(doc);
     });
   };
 
@@ -60,16 +70,16 @@ export class BaseController {
    * @param req
    * @param res
    */
-  public deleteById = (req, res) => {
+  public deleteById = (req: Request, res: Response): void => {
     this.model.findByIdAndDelete(req.params.id, (err, docs) => {
       if (!docs) {
-        res.status(404).json({
-          status: false,
-          msg: 'Document not found'
-        });
-        return;
+        new ResponseService(res)
+          .status(404)
+          .error('Document not found');
       } else {
-        res.sendStatus(204);
+        new ResponseService(res)
+          .status(204)
+          .success(null);
       }
     });
   };

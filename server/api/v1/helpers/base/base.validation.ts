@@ -1,14 +1,34 @@
 import * as joi from 'joi';
-import { BaseError } from '../base.error';
+import { Request, Response, NextFunction } from 'express';
+import { ResponseErrorType, ResponseService } from '../response.service';
+import { ObjectSchema, ValidationError } from 'joi';
 
 
 export class BaseValidation {
 
-  public validate = (req, res, next, schema) => {
-    joi.validate(req, schema)
+  /**
+   * Joi validation
+   * @param req
+   * @param res
+   * @param next
+   * @param schema
+   * @param errMessage
+   */
+  public validate = (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+    schema: ObjectSchema,
+    errMessage?: string = 'Validation error'
+  ): void => {
+
+    joi
+      .validate(req, schema)
       .then(() => next())
-      .catch((err) => {
-        res.status(400).json(BaseError.generate(false, err));
+      .catch((err: ValidationError) => {
+        new ResponseService(res)
+          .status(400)
+          .error(errMessage, err.details, ResponseErrorType.VALIDATION);
       });
-  }
+  };
 }

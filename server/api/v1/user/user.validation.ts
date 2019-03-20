@@ -1,10 +1,11 @@
 import * as joi from 'joi';
 import { BaseValidation } from '../helpers/base/base.validation';
+import { ObjectSchema } from 'joi';
 
 
 export class UserValidation extends BaseValidation {
-  public update = (req, res, next) => {
-    const schema = joi.object({
+  public update = (req, res, next): void => {
+    const schema: ObjectSchema = joi.object({
       name: joi.string(),
       email: joi.string().email().required(),
       password: joi.string().min(8)

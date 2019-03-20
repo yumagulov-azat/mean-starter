@@ -4,7 +4,7 @@ import { BaseValidation } from './base.validation';
 
 export interface IBaseRoute {
   expressRouter: express.Router;
-  controller: BaseController;
+  controller: BaseController | any;
   validation?: BaseValidation;
   router: express.Router;
 }

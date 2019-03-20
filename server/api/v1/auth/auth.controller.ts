@@ -1,9 +1,8 @@
 import { UserController } from '../user/user.controller';
-import { BaseController } from '../helpers/base/base.controller';
 
 
-export class AuthController extends BaseController {
+export class AuthController {
   private userCtrl: UserController = new UserController;
-  public login = this.userCtrl.login;
-  public register = this.userCtrl.register;
+  public login: Function = this.userCtrl.login;
+  public register: Function = this.userCtrl.register;
 }

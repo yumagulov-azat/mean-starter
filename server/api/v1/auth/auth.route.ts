@@ -3,6 +3,7 @@ import { AuthController } from './auth.controller';
 import { IBaseRoute } from '../helpers/base/base.route';
 import { AuthValidation } from './auth.validation';
 
+
 export class AuthRoute implements IBaseRoute {
 
   private expressRouter: express.Router = express.Router();
@@ -12,11 +13,17 @@ export class AuthRoute implements IBaseRoute {
   public get router(): express.Router {
     this.expressRouter
       .route('/login')
-      .post(this.validation.login, this.controller.login);
+      .post(
+        this.validation.login,
+        this.controller.login
+      );
 
     this.expressRouter
       .route('/registration')
-      .post(this.validation.registration, this.controller.register);
+      .post(
+        this.validation.registration,
+        this.controller.register
+      );
 
     return this.expressRouter;
   }

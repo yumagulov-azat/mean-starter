@@ -12,13 +12,22 @@ export class UserRoute implements IBaseRoute {
   public get router(): express.Router {
     this.expressRouter
       .route('/')
-      .get(this.controller.getAll);
+      .get(
+        this.controller.getAll
+      );
 
     this.expressRouter
       .route('/:id')
-      .get(this.controller.getById)
-      .put(this.validation.update, this.controller.updateById)
-      .delete(this.controller.deleteById);
+      .get(
+        this.controller.getById
+      )
+      .put(
+        this.validation.update,
+        this.controller.updateById
+      )
+      .delete(
+        this.controller.deleteById
+      );
 
     return this.expressRouter;
   }
