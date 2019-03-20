@@ -1,6 +1,6 @@
 import * as joi from 'joi';
 import { Request, Response, NextFunction } from 'express';
-import { ResponseErrorType, ResponseService } from '../response.service';
+import { ResponseErrorType, ResponseService } from '../response-service';
 import { ObjectSchema, ValidationError } from 'joi';
 
 

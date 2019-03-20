@@ -1,8 +1,8 @@
 import * as jwt from 'jsonwebtoken';
-import { BaseController } from '../helpers/base-endpoint';
+import { BaseController } from '../core/base-endpoint';
 import { User, IUser } from './user.model';
 import { Document } from 'mongoose';
-import { ResponseService } from '../helpers/response.service';
+import { ResponseService } from '../core/response-service';
 
 export class UserController extends BaseController {
 

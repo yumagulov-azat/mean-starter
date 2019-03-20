@@ -1,5 +1,5 @@
 import { Thing } from './thing.model';
-import { BaseController } from '../helpers/base-endpoint';
+import { BaseController } from '../core/base-endpoint';
 
 
 export class ThingController extends BaseController {

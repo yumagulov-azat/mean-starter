@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { AuthController } from './auth.controller';
-import { IBaseRoute } from '../helpers/base-endpoint';
+import { IBaseRoute } from '../core/base-endpoint';
 import { AuthValidation } from './auth.validation';
 
 
