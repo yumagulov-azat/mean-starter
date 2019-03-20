@@ -1,30 +1,11 @@
 import * as express from 'express';
-import * as passport from 'passport';
 import { ThingController } from './thing.controller';
 import { IBaseRoute } from '../core/base-endpoint';
 import { ThingValidation } from './thing.validation';
-import { ResponseErrorType, ResponseService } from '../core/response-service';
+import { requireAuth } from '../core/auth';
 
 
-const requireAuthenticate = function (req, res, next) {
-  passport.authenticate('jwt', {session: false}, function (err, user, info) {
-    let errorMessage: string;
-    let errorDetails: string;
 
-    if (info) {
-      errorMessage = info.message;
-      errorDetails = info.name;
-    }
-
-    if (!user) {
-      new ResponseService(res)
-        .status(401)
-        .error(errorMessage || 'Authentication failed', errorDetails || null, ResponseErrorType.AUTHORIZATION_ERROR);
-      return;
-    }
-    next();
-  })(req, res, next);
-};
 
 
 export class ThingRoute implements IBaseRoute {
@@ -37,11 +18,11 @@ export class ThingRoute implements IBaseRoute {
     this.expressRouter
       .route('/')
       .get(
-        requireAuthenticate,
+        requireAuth,
         this.controller.getAll
       )
       .post(
-        passport.authenticate('jwt', {session: false}),
+        requireAuth,
         this.validation.save,
         this.controller.save
       );
@@ -49,16 +30,16 @@ export class ThingRoute implements IBaseRoute {
     this.expressRouter
       .route('/:id')
       .get(
-        passport.authenticate('jwt', {session: false}),
+        requireAuth,
         this.controller.getById
       )
       .put(
-        passport.authenticate('jwt', {session: false}),
+        requireAuth,
         this.validation.save,
         this.controller.updateById
       )
       .delete(
-        passport.authenticate('jwt', {session: false}),
+        requireAuth,
         this.controller.deleteById
       );
 

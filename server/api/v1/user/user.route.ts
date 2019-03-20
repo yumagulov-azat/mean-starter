@@ -2,6 +2,7 @@ import * as express from 'express';
 import { IBaseRoute } from '../core/base-endpoint';
 import { UserController } from './user.controller';
 import { UserValidation } from './user.validation';
+import { requireAuth } from '../core/auth';
 
 export class UserRoute implements IBaseRoute {
 
@@ -13,19 +14,23 @@ export class UserRoute implements IBaseRoute {
     this.expressRouter
       .route('/')
       .get(
+        requireAuth,
         this.controller.getAll
       );
 
     this.expressRouter
       .route('/:id')
       .get(
+        requireAuth,
         this.controller.getById
       )
       .put(
+        requireAuth,
         this.validation.update,
         this.controller.updateById
       )
       .delete(
+        requireAuth,
         this.controller.deleteById
       );
 

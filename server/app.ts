@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
+import { Request, Response } from 'express';
 
 import { ExpressConfig } from './config/express.config';
 import { DBConfig } from './config/db.config';
@@ -16,7 +17,7 @@ ExpressConfig.init(app);
 PassportConfig.init(app);
 ApiRoutes.init(app);
 
-app.get('/*', (req, res) => {
+app.get('/*', (req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, '../client/index.html'));
 });
 

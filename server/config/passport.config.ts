@@ -1,6 +1,6 @@
 import * as express from 'express';
 import * as passport from 'passport';
-import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
+import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions, VerifiedCallback } from 'passport-jwt';
 import { User } from '../api/v1/user/user.model';
 
 
@@ -12,7 +12,7 @@ export class PassportConfig {
       secretOrKey: process.env.SECRET,
     };
 
-    passport.use(new JwtStrategy(options, function (payload, done) {
+    passport.use(new JwtStrategy(options, function (payload, done: VerifiedCallback) {
       User.findOne({id: payload.id}, function (err, user) {
         if (err) {
           return done(err, false);

@@ -1,11 +1,12 @@
 import * as joi from 'joi';
 import { BaseValidation } from '../core/base-endpoint';
 import { ObjectSchema } from 'joi';
+import { NextFunction, Request, Response } from 'express';
 
 
 export class ThingValidation extends BaseValidation {
 
-  public save = (req, res, next): void => {
+  public save = (req: Request, res: Response, next: NextFunction): void => {
     const schema: ObjectSchema = joi.object({
       name: joi.string().required()
     });
