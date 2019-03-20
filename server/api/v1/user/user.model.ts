@@ -23,7 +23,8 @@ const UserSchema: Schema = new Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    select: false
   },
 });
 
@@ -66,6 +67,15 @@ UserSchema.pre<IUser>('save', function (next) {
     callback(null, isMatch);
   });
 };
+
+/**
+ * Remove password from response
+ */
+// (UserSchema.methods as IUser).toJSON = function() {
+//   const obj = this.toObject();
+//   delete obj.password;
+//   return obj;
+// }
 
 
 const User: Model<IUser> = mongoose.model('User', UserSchema);

@@ -75,7 +75,7 @@ export class BaseController {
       if (!docs) {
         new ResponseService(res)
           .status(404)
-          .error('Document not found');
+          .error('Document not found', 'DocumentNotFound');
       } else {
         new ResponseService(res)
           .status(204)

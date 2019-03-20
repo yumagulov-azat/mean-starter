@@ -3,6 +3,29 @@ import * as passport from 'passport';
 import { ThingController } from './thing.controller';
 import { IBaseRoute } from '../core/base-endpoint';
 import { ThingValidation } from './thing.validation';
+import { ResponseErrorType, ResponseService } from '../core/response-service';
+
+
+const requireAuthenticate = function (req, res, next) {
+  passport.authenticate('jwt', {session: false}, function (err, user, info) {
+    let errorMessage: string;
+    let errorDetails: string;
+
+    if (info) {
+      errorMessage = info.message;
+      errorDetails = info.name;
+    }
+
+    if (!user) {
+      new ResponseService(res)
+        .status(401)
+        .error(errorMessage || 'Authentication failed', errorDetails || null, ResponseErrorType.AUTHORIZATION_ERROR);
+      return;
+    }
+    next();
+  })(req, res, next);
+};
+
 
 export class ThingRoute implements IBaseRoute {
 
@@ -14,7 +37,7 @@ export class ThingRoute implements IBaseRoute {
     this.expressRouter
       .route('/')
       .get(
-        passport.authenticate('jwt', {session: false}),
+        requireAuthenticate,
         this.controller.getAll
       )
       .post(
@@ -42,3 +65,4 @@ export class ThingRoute implements IBaseRoute {
     return this.expressRouter;
   }
 }
+

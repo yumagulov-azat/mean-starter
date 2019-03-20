@@ -3,6 +3,7 @@ import * as passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 import { User } from '../api/v1/user/user.model';
 
+
 export class PassportConfig {
 
   static init(app: express.Application): void {
@@ -16,10 +17,11 @@ export class PassportConfig {
         if (err) {
           return done(err, false);
         }
+
         if (user) {
-          done(null, user);
+          return done(null, user);
         } else {
-          done(null, false);
+          return done(null, false, {message: 'Incorrect username.'});
         }
       });
     }));

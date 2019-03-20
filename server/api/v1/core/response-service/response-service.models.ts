@@ -11,11 +11,12 @@ export const ResponseStatus = {
 /**
  * Error types
  */
-export type ResponseErrorType = 'VALIDATION' | 'COMMON';
+export type ResponseErrorType = 'VALIDATION' | 'COMMON' | 'AUTHORIZATION_ERROR';
 
 export const ResponseErrorType = {
   VALIDATION: 'VALIDATION' as ResponseErrorType,
-  COMMON: 'COMMON' as ResponseErrorType
+  COMMON: 'COMMON' as ResponseErrorType,
+  AUTHORIZATION_ERROR: 'AUTHORIZATION_ERROR' as ResponseErrorType
 };
 
 
