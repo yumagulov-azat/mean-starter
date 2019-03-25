@@ -1,4 +1,4 @@
-import { User } from './auth-reponse.model';
+import { User } from '@app/core/auth/models/auth-reponse.model';
 
 
 export interface AuthStatus {

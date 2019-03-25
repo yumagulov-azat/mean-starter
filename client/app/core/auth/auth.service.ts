@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 // RxJs
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 // Services
-import { StorageService } from '../services/storage.service';
-import { AuthStatus, defaultAuthStatus } from './models/auth-status.model';
-import { HttpClient } from '@angular/common/http';
-import { AuthResponse } from './models/auth-reponse.model';
-import { ApiResponse } from '../models/api-response.model';
+import { StorageService } from '@app/core/services/storage.service';
+import { AuthStatus, defaultAuthStatus } from '@app/core/auth/models/auth-status.model';
+import { AuthResponse } from '@app/core/auth/models/auth-reponse.model';
+import { ApiResponse } from '@app/core/models/api-response.model';
 
 
 @Injectable({
@@ -36,12 +36,11 @@ export class AuthService {
   public login(email: string, password: string): Observable<any> {
     this.logout();
 
-    return this.http.post<AuthResponse>('/api/v1/auth/login', {
+    return this.http.post<AuthResponse>('/auth/login', {
       email: email,
       password: password
     })
       .pipe(
-        // Save token
         tap((res: AuthResponse) => {
           if (res.success === true) {
             this.setToken(res.data.token);
@@ -55,9 +54,9 @@ export class AuthService {
   }
 
   public check(): Observable<any> {
-    return this.http.get('/api/v1/auth/check')
+    return this.http.get<AuthResponse>('/auth/check')
       .pipe(
-        tap((res: ApiResponse) => {
+        tap((res: AuthResponse) => {
           if (res.success === true) {
             this.authStatus.next({
               isAuthenticated: true,

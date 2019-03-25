@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanLoad, CanActivateChild, } from '@angular/router';
 import { Route } from '@angular/compiler/src/core';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth.service';
-import { AuthStatus } from './models/auth-status.model';
+import { AuthService } from '@app/core/auth/auth.service';
+import { AuthStatus } from '@app/core/auth/models/auth-status.model';
+import { NotificationService } from '@app/core/services/notification.service';
 
 
 /**
@@ -18,6 +19,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
   constructor(
     protected authService: AuthService,
     protected router: Router,
+    protected notificationService: NotificationService
   ) {
     this.authService.authStatus.subscribe((authStatus: AuthStatus) => {
       this.currentAuthStatus = authStatus;
@@ -38,7 +40,8 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
   protected checkLogin(route?: ActivatedRouteSnapshot) {
     if (!this.currentAuthStatus.isAuthenticated) {
-      this.router.navigate(['login']);
+      this.router.navigateByUrl('/user/login');
+      this.notificationService.show('Auth required');
       return false;
     }
 

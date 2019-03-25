@@ -1,4 +1,4 @@
-import { ApiResponse } from '../../models/api-response.model';
+import { ApiResponse } from '@app/core/models/api-response.model';
 
 export interface User {
   _id: string;

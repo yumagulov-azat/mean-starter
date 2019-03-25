@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../../../core/auth/auth.service';
+import { AuthService } from '@app/core/auth/auth.service';
 import { Observable } from 'rxjs';
-import { AuthStatus } from '../../../../../core/auth/models/auth-status.model';
+import { AuthStatus } from '@app/core/auth/models/auth-status.model';
 
 @Component({
   selector: 'app-ui-main-header',
@@ -17,6 +17,10 @@ export class UiMainHeaderComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+  }
+
+  public logout(): void {
+    this.authService.logout();
   }
 
 }

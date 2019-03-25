@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from '@app/core/auth/auth.service';
 
 
 @Injectable()
@@ -14,12 +14,15 @@ export class ApiHttpInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const accessToken: string = this.authService.getToken();
+    let transformedReq: HttpRequest<any>;
 
     // Add header
-    const transformedReq: HttpRequest = req.clone({
-      headers: req.headers.set('Authorization', accessToken),
-    });
+    if (accessToken) {
+      transformedReq = req.clone({
+        headers: req.headers.set('Authorization', accessToken),
+      });
+    }
 
-    return next.handle(transformedReq);
+    return next.handle(transformedReq || req);
   }
 }

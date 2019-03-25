@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
 
-import { UserRoutingModule } from './user-routing.module';
-import { UserComponent } from './user.component';
-import { UserLoginComponent } from './components/user-login/user-login.component';
-import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
-import { SharedModule } from '../shared/shared.module';
+import { UserRoutingModule } from '@app/user/user-routing.module';
+import { UserComponent } from '@app/user/user.component';
+import { UserLoginComponent } from '@app/user/components/user-login/user-login.component';
+import { UserRegistrationComponent } from '@app/user/components/user-registration/user-registration.component';
+import { SharedModule } from '@app/shared/shared.module';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 @NgModule({
-  declarations: [UserComponent, UserLoginComponent, UserRegistrationComponent],
+  declarations: [UserComponent, UserLoginComponent, UserRegistrationComponent, UserProfileComponent],
   imports: [
     SharedModule,
     UserRoutingModule

@@ -3,17 +3,17 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AppComponent } from './app.component';
-import { CoreModule } from './core/core.module';
-import { AppRoutingModule } from './app-routing.module';
-import { HomeModule } from './home/home.module';
-import { SharedModule } from './shared/shared.module';
+import { AppComponent } from '@app/app.component';
+import { CoreModule } from '@app/core/core.module';
+import { AppRoutingModule } from '@app/app-routing.module';
+import { HomeModule } from '@app/home/home.module';
+import { SharedModule } from '@app/shared/shared.module';
 
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

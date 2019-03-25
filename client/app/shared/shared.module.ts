@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UiModule } from './ui/ui.module';
-import { MaterialModule } from './material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+
+import { UiModule } from '@app/shared/ui/ui.module';
+import { MaterialModule } from '@app/shared/material/material.module';
 
 @NgModule({
   declarations: [

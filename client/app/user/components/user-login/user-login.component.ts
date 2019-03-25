@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AuthService } from '../../../core/auth/auth.service';
-import { authError, AuthResponse } from '../../../core/auth/models/auth-reponse.model';
+import { AuthService } from '@app/core/auth/auth.service';
+import { authError, AuthResponse } from '@app/core/auth/models/auth-reponse.model';
+import { NotificationService } from '@app/core/services/notification.service';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class UserLoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private notificationService: NotificationService
   ) {
   }
 
@@ -38,10 +40,10 @@ export class UserLoginComponent implements OnInit {
       )
       .subscribe((res: AuthResponse) => {
         if (res.success === true) {
+          this.notificationService.show('Auth success')
           this.router.navigateByUrl('/');
         }
       }, (err) => {
-        console.log(err)
         if (err.error && err.error.type) {
           this.error = err.error.type;
         }

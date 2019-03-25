@@ -7,19 +7,26 @@
       <a routerLink="/" mat-button>Home</a>
     </li>
     <li>
-      <a routerLink="/" mat-button>Things</a>
+      <a routerLink="/things" mat-button>Things</a>
     </li>
   </ul>
   <span class="app-ui-main-header__spacer"></span>
-  <ul>
-    <li>
-      {{ ($authStatus | async).isAuthenticated }}
-    </li>
-    <li>
-      <a routerLink="/user/login" mat-button>Login</a>
-    </li>
-    <li>
-      <a routerLink="/user/registration" mat-button>Registration</a>
-    </li>
-  </ul>
+  <ng-container *ngIf="($authStatus | async) as authStatus">
+    <ng-container *ngIf="authStatus.user">
+      <a routerLink="/user/profile" mat-button>
+        {{ authStatus.user.name || authStatus.user.email }}
+      </a>
+    </ng-container>
+    <ul>
+      <li *ngIf="!authStatus.isAuthenticated">
+        <a routerLink="/user/login" mat-button>Login</a>
+      </li>
+      <li *ngIf="!authStatus.isAuthenticated">
+        <a routerLink="/user/registration" mat-button>Registration</a>
+      </li>
+      <li *ngIf="authStatus.isAuthenticated">
+        <button mat-button (click)="logout()">Logout</button>
+      </li>
+    </ul>
+  </ng-container>
 </mat-toolbar>

@@ -1,9 +1,9 @@
 import { APP_INITIALIZER, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthModule } from './auth/auth.module';
-import { AppInitializationService } from './services/app-initialization.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ApiHttpInterceptor } from './services/api-http.interceptor';
+import { AuthModule } from '@app/core/auth/auth.module';
+import { AppInitializationService } from '@app/core/services/app-initialization.service';
+import { ApiHttpInterceptor } from '@app/core/services/api-http.interceptor';
 
 export function init_app(appInitializationService: AppInitializationService) {
   return () => appInitializationService.init_app();
