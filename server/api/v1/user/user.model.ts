@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 import { Schema, Model } from 'mongoose';
-import * as bcrypt from 'bcrypt-nodejs';
+import { NextFunction } from 'express';
+import { CryptWrapper } from '../core/services/security/crypt-wrapper';
 
 
 export interface IUser extends mongoose.Document {
@@ -25,29 +26,26 @@ const UserSchema: Schema = new Schema({
     type: String,
     required: true,
     select: false
-  },
+  }
 });
 
 
 /**
  * Generate hash
  */
-UserSchema.pre<IUser>('save', function (next) {
-  const user = this;
+UserSchema.pre<IUser>('save', function (next: NextFunction) {
+  const user: IUser = this;
 
   if (user.isModified('password') || user.isNew) {
-    bcrypt.genSalt(10, function (saltErr, salt) {
-      if (saltErr) {
-        return next(saltErr);
-      }
-      bcrypt.hash(user.password, salt, null, function (hashErr, hash) {
-        if (hashErr) {
-          return next(hashErr);
-        }
+    CryptWrapper
+      .saltHash(user.password)
+      .then((hash: string) => {
         user.password = hash;
         next();
+      })
+      .catch((err) => {
+        next(err);
       });
-    });
   } else {
     return next();
   }
@@ -60,22 +58,15 @@ UserSchema.pre<IUser>('save', function (next) {
  * @param callback
  */
 (UserSchema.methods as IUser).comparePassword = function (password, callback) {
-  bcrypt.compare(password, this.password, function (err, isMatch) {
-    if (err) {
-      return callback(err);
-    }
-    callback(null, isMatch);
-  });
+  CryptWrapper
+    .comparePassword(password, this.password)
+    .then((res: boolean) => {
+      callback(null, res);
+    })
+    .catch((err) => {
+      callback(err);
+    });
 };
-
-/**
- * Remove password from response
- */
-// (UserSchema.methods as IUser).toJSON = function() {
-//   const obj = this.toObject();
-//   delete obj.password;
-//   return obj;
-// }
 
 
 const User: Model<IUser> = mongoose.model('User', UserSchema);

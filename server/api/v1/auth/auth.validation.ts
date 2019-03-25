@@ -1,5 +1,5 @@
 import * as joi from 'joi';
-import { BaseValidation } from '../core/base-endpoint';
+import { BaseValidation } from '../core/base';
 import { ObjectSchema } from 'joi';
 import { NextFunction, Request, Response } from 'express';
 

@@ -1,10 +1,9 @@
 import * as jwt from 'jsonwebtoken';
-import { BaseController } from '../core/base-endpoint';
+import { BaseController } from '../core/base';
 import { User, IUser } from './user.model';
 import { Document } from 'mongoose';
-import { ResponseErrorType, ResponseService } from '../core/response-service';
-
-export const UserNotFound = 'UserNotFound';
+import { ResponseService } from '../core/services/response-service';
+import { ErrorCodes } from '../core/services/response-service/response-service-error-codes';
 
 export class UserController extends BaseController {
 
@@ -27,19 +26,16 @@ export class UserController extends BaseController {
     newUser.save()
       .then((user: IUser) => {
         new ResponseService(res)
-          .status(201)
-          .success(null);
+          .success(null, 201);
       })
       .catch(err => {
         if (err && err.code === 11000) {
           new ResponseService(res)
-            .status(400)
-            .error('User already exists', 'UserAlreadyExists', ResponseErrorType.AUTHORIZATION_ERROR)
+            .error(ErrorCodes.USER_ALREADY_EXIST)
           return;
         }
         new ResponseService(res)
-          .status(400)
-          .error();
+          .error(ErrorCodes.COMMON);
       });
   };
 
@@ -57,8 +53,7 @@ export class UserController extends BaseController {
       .then((user: IUser) => {
         if (!user) {
           new ResponseService(res)
-            .status(401)
-            .error('Authentication failed. User not found', 'UserNotFound', ResponseErrorType.AUTHORIZATION_ERROR)
+            .error(ErrorCodes.USER_NOT_FOUND)
           return;
         }
 
@@ -66,12 +61,13 @@ export class UserController extends BaseController {
           if (isMatch && !compareErr) {
             const token = jwt.sign(user.toJSON(), process.env.SECRET, { expiresIn: '7 days' });
             new ResponseService(res)
-              .status(200)
-              .success({ token: 'JWT ' + token });
+              .success({
+                user: user,
+                token: `JWT ${token}`
+              }, 200);
           } else {
             new ResponseService(res)
-              .status(401)
-              .error('Authentication failed. Wrong password', 'WrongPassword', ResponseErrorType.AUTHORIZATION_ERROR);
+              .error(ErrorCodes.WRONG_PASSWORD);
           }
         });
       })

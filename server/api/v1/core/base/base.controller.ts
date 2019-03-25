@@ -1,6 +1,7 @@
 import { Model } from 'mongoose';
 import { Request, Response } from 'express';
-import { ResponseService } from '../response-service';
+import { ResponseService } from '../services/response-service';
+import { ErrorCodes } from '../services/response-service/response-service-error-codes';
 
 
 export class BaseController {
@@ -19,7 +20,6 @@ export class BaseController {
   public getAll = (req: Request, res: Response): void => {
     this.model.find({}, (err, docs) => {
       new ResponseService(res)
-        .status(200)
         .success(docs);
     });
   };
@@ -32,7 +32,6 @@ export class BaseController {
   public getById = (req: Request, res: Response): void => {
     this.model.findById(req.params.id, (err, doc) => {
       new ResponseService(res)
-        .status(200)
         .success(doc);
     });
   };
@@ -46,8 +45,7 @@ export class BaseController {
     const obj = new this.model(req.body);
     obj.save((err, doc) => {
       new ResponseService(res)
-        .status(201)
-        .success(doc);
+        .success(doc, 201);
     });
   };
 
@@ -57,9 +55,8 @@ export class BaseController {
    * @param res
    */
   public updateById = (req: Request, res: Response): void => {
-    this.model.findOneAndUpdate(req.params.id, req.body, {new: true}, (err, doc) => {
+    this.model.findByIdAndUpdate(req.params.id, req.body, {new: true}, (err, doc) => {
       new ResponseService(res)
-        .status(200)
         .success(doc);
     });
   };
@@ -74,12 +71,10 @@ export class BaseController {
     this.model.findByIdAndDelete(req.params.id, (err, docs) => {
       if (!docs) {
         new ResponseService(res)
-          .status(404)
-          .error('Document not found', 'DocumentNotFound');
+          .error(ErrorCodes.DB_DOCUMENT_NOT_FOUND);
       } else {
         new ResponseService(res)
-          .status(204)
-          .success(null);
+          .success(null, 204);
       }
     });
   };

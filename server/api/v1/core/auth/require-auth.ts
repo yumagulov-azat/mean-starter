@@ -1,21 +1,14 @@
 import * as passport from 'passport';
-import { ResponseErrorType, ResponseService } from '../response-service';
+import { ResponseService } from '../services/response-service';
+import { ErrorCodes } from '../services/response-service/response-service-error-codes';
+import { Request, Response, NextFunction } from 'express';
 
 
-export function requireAuth(req, res, next) {
-  passport.authenticate('jwt', {session: false}, function (err, user, info) {
-    let errorMessage: string;
-    let errorDetails: string;
-
-    if (info) {
-      errorMessage = info.message;
-      errorDetails = info.name;
-    }
-
+export function requireAuth(req: Request, res: Response, next: NextFunction) {
+  passport.authenticate('jwt', {session: false}, function (err, user) {
     if (!user) {
       new ResponseService(res)
-        .status(401)
-        .error(errorMessage || 'Authentication failed', errorDetails || null, ResponseErrorType.AUTHORIZATION_ERROR);
+        .error(ErrorCodes.UNAUTHORIZED);
       return;
     }
     next();

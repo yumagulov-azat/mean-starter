@@ -1,14 +1,14 @@
 import * as express from 'express';
 import { AuthController } from './auth.controller';
-import { IBaseRoute } from '../core/base-endpoint';
+import { IBaseRoute } from '../core/base';
 import { AuthValidation } from './auth.validation';
 
 
 export class AuthRoute implements IBaseRoute {
 
-  private expressRouter: express.Router = express.Router();
-  private controller: AuthController = new AuthController();
-  private validation: AuthValidation = new AuthValidation();
+  expressRouter: express.Router = express.Router();
+  controller: AuthController = new AuthController();
+  validation: AuthValidation = new AuthValidation();
 
   public get router(): express.Router {
     this.expressRouter

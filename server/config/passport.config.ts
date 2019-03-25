@@ -21,7 +21,7 @@ export class PassportConfig {
         if (user) {
           return done(null, user);
         } else {
-          return done(null, false, {message: 'Incorrect username.'});
+          return done(null, false);
         }
       });
     }));
@@ -29,3 +29,4 @@ export class PassportConfig {
     app.use(passport.initialize());
   }
 }
+

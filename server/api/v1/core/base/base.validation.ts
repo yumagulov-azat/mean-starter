@@ -1,7 +1,8 @@
 import * as joi from 'joi';
 import { Request, Response, NextFunction } from 'express';
-import { ResponseErrorType, ResponseService } from '../response-service';
+import { ResponseService } from '../services/response-service';
 import { ObjectSchema, ValidationError } from 'joi';
+import { ErrorCodes } from '../services/response-service/response-service-error-codes';
 
 
 export class BaseValidation {
@@ -19,7 +20,6 @@ export class BaseValidation {
     res: Response,
     next: NextFunction,
     schema: ObjectSchema,
-    errMessage?: string = 'Validation error'
   ): void => {
 
     joi
@@ -27,8 +27,10 @@ export class BaseValidation {
       .then(() => next())
       .catch((err: ValidationError) => {
         new ResponseService(res)
-          .status(400)
-          .error(errMessage, err.details, ResponseErrorType.VALIDATION);
+          .error({
+            ...ErrorCodes.VALIDATION,
+            details: err.details
+          });
       });
   };
 }

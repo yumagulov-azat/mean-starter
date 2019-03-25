@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { ThingController } from './thing.controller';
-import { IBaseRoute } from '../core/base-endpoint';
+import { IBaseRoute } from '../core/base';
 import { ThingValidation } from './thing.validation';
 import { requireAuth } from '../core/auth';
 
@@ -10,9 +10,9 @@ import { requireAuth } from '../core/auth';
 
 export class ThingRoute implements IBaseRoute {
 
-  private expressRouter: express.Router = express.Router();
-  private controller: ThingController = new ThingController();
-  private validation: ThingValidation = new ThingValidation();
+  expressRouter: express.Router = express.Router();
+  controller: ThingController = new ThingController();
+  validation: ThingValidation = new ThingValidation();
 
   public get router(): express.Router {
     this.expressRouter
