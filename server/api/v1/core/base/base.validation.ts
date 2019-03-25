@@ -13,7 +13,6 @@ export class BaseValidation {
    * @param res
    * @param next
    * @param schema
-   * @param errMessage
    */
   public validate = (
     req: Request,

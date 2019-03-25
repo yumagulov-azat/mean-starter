@@ -18,7 +18,10 @@ export interface ISuccessResponse extends IResponse {
  * Error response
  */
 export interface IErrorResponse extends IResponse {
-  error: IErrorResponseError;
+  // error: IErrorResponseError;
+  type: string;
+  message: string;
+  details?: any;
 }
 
 export interface IErrorResponseError {

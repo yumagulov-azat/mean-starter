@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanLoad, CanActivateChild, } from '@angular/router';
 import { Route } from '@angular/compiler/src/core';
 import { Observable } from 'rxjs';
-import { AuthService, AuthStatus } from './auth.service';
+import { AuthService } from './auth.service';
+import { AuthStatus } from './models/auth-status.model';
 
 
 /**

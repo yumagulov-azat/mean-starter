@@ -75,5 +75,10 @@ export class UserController extends BaseController {
         throw err;
       });
   };
+
+  public check = (req, res): void => {
+    new ResponseService(res)
+      .success(null);
+  };
 }
 

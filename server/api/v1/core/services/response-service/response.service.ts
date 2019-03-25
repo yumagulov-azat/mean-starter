@@ -18,11 +18,9 @@ export class ResponseService {
 
     const responseBody: IErrorResponse = {
       success: false,
-      error: {
         type: error.type,
         message: error.message,
         details: error.details || null
-      }
     };
 
     this.response

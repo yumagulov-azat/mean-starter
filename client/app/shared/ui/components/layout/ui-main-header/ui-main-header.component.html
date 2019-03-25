@@ -1,0 +1,25 @@
+<mat-toolbar color="primary" class="app-ui-main-header">
+  <a routerLink="/" class="app-ui-main-header__logo">
+    MEAN-starter
+  </a>
+  <ul>
+    <li>
+      <a routerLink="/" mat-button>Home</a>
+    </li>
+    <li>
+      <a routerLink="/" mat-button>Things</a>
+    </li>
+  </ul>
+  <span class="app-ui-main-header__spacer"></span>
+  <ul>
+    <li>
+      {{ ($authStatus | async).isAuthenticated }}
+    </li>
+    <li>
+      <a routerLink="/user/login" mat-button>Login</a>
+    </li>
+    <li>
+      <a routerLink="/user/registration" mat-button>Registration</a>
+    </li>
+  </ul>
+</mat-toolbar>

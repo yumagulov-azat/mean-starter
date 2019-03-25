@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 
 // RxJs
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 // Services
 import { StorageService } from '../services/storage.service';
 import { AuthStatus, defaultAuthStatus } from './models/auth-status.model';
 import { HttpClient } from '@angular/common/http';
+import { AuthResponse } from './models/auth-reponse.model';
+import { ApiResponse } from '../models/api-response.model';
 
 
 @Injectable({
@@ -18,11 +20,11 @@ export class AuthService {
   /**
    * BehaviorSubject for subscribe to authStatus
    */
-  public authStatus: Subject<AuthStatus> = new Subject<AuthStatus>();
+  public authStatus: BehaviorSubject<AuthStatus> = new BehaviorSubject<AuthStatus>(defaultAuthStatus);
 
   constructor(
     private storage: StorageService,
-    private http: HttpClient
+    private http: HttpClient,
   ) {
   }
 
@@ -34,19 +36,35 @@ export class AuthService {
   public login(email: string, password: string): Observable<any> {
     this.logout();
 
-    return this.http.post('/api/v1/auth/login', {
+    return this.http.post<AuthResponse>('/api/v1/auth/login', {
       email: email,
       password: password
     })
       .pipe(
         // Save token
-        tap((res: any) => {
-          if (res.data.status === 'SUCCESS') {
+        tap((res: AuthResponse) => {
+          if (res.success === true) {
             this.setToken(res.data.token);
             this.authStatus.next({
               isAuthenticated: true,
               user: res.data.user
             });
+          }
+        })
+      );
+  }
+
+  public check(): Observable<any> {
+    return this.http.get('/api/v1/auth/check')
+      .pipe(
+        tap((res: ApiResponse) => {
+          if (res.success === true) {
+            this.authStatus.next({
+              isAuthenticated: true,
+              user: null
+            });
+          } else {
+            this.authStatus.next(defaultAuthStatus);
           }
         })
       );

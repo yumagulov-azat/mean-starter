@@ -6,4 +6,5 @@ export class AuthController {
   private userCtrl: UserController = new UserController;
   public login: RequestHandler = this.userCtrl.login;
   public register: RequestHandler = this.userCtrl.register;
+  public check: RequestHandler = this.userCtrl.check;
 }

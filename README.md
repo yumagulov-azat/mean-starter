@@ -1,4 +1,4 @@
 # MEAN starter
 
-**Client:** Angular6\
-**Server:** Node.js, Express.js, MongoDB, Mongoose 
+**Client:** Angular7\
+**Server:** TypeScript, Node.js, Express.js, MongoDB, Mongoose 
