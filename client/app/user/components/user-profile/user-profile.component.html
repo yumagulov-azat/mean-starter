@@ -1,3 +1,38 @@
-<p>
-  user-profile works!
-</p>
+<app-user-auth-form-wrapper
+  [name]="'Profile'">
+  <ng-template #userProfileErrors>
+    <div class="app-user-auth-form-wrapper__errors" [ngSwitch]="error" *ngIf="error">
+      <mat-error *ngSwitchCase="'COMMON_ERROR'">Data loading fail</mat-error>
+      <mat-error *ngSwitchCase="'VALIDATION_ERROR'">Validation error</mat-error>
+    </div>
+  </ng-template>
+
+  <ng-container *ngTemplateOutlet="userProfileErrors"></ng-container>
+
+  <form
+    *ngIf="form"
+    [formGroup]="form"
+    (submit)="$event.preventDefault(); updateUser();">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput type="text" formControlName="name">
+    </mat-form-field>
+    
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email">
+      <mat-icon matSuffix>alternate_email</mat-icon>
+    </mat-form-field>
+
+    <ng-container *ngTemplateOutlet="userProfileErrors"></ng-container>
+
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      [disabled]="form.status === 'INVALID'">
+      Update
+    </button>
+  </form>
+</app-user-auth-form-wrapper>

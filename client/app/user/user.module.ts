@@ -6,9 +6,10 @@ import { UserLoginComponent } from '@app/user/components/user-login/user-login.c
 import { UserRegistrationComponent } from '@app/user/components/user-registration/user-registration.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { UserAuthFormWrapperComponent } from './components/user-auth-form-wrapper/user-auth-form-wrapper.component';
 
 @NgModule({
-  declarations: [UserComponent, UserLoginComponent, UserRegistrationComponent, UserProfileComponent],
+  declarations: [UserComponent, UserLoginComponent, UserRegistrationComponent, UserProfileComponent, UserAuthFormWrapperComponent],
   imports: [
     SharedModule,
     UserRoutingModule

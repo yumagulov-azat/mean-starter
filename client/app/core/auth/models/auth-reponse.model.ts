@@ -1,4 +1,4 @@
-import { ApiResponse } from '@app/core/models/api-response.model';
+import { ApiResponse } from '@app/core/api/api-response.model';
 
 export interface User {
   _id: string;
@@ -6,13 +6,13 @@ export interface User {
   email: string;
 }
 
-export interface AuthResponseUserData {
+export interface AuthResponseData {
   user: User;
   token: string;
 }
 
 export interface AuthResponse extends ApiResponse {
-  data: AuthResponseUserData;
+  data: AuthResponseData;
 }
 
 export type authError = 'UNAUTHORIZED_ERROR' | 'USER_NOT_FOUND_ERROR' | 'USER_ALREADY_EXIST_ERROR' | 'WRONG_PASSWORD_ERROR';

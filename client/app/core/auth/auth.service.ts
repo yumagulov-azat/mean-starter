@@ -9,7 +9,9 @@ import { tap } from 'rxjs/operators';
 import { StorageService } from '@app/core/services/storage.service';
 import { AuthStatus, defaultAuthStatus } from '@app/core/auth/models/auth-status.model';
 import { AuthResponse } from '@app/core/auth/models/auth-reponse.model';
-import { ApiResponse } from '@app/core/models/api-response.model';
+import { RegistrationRequest } from '@app/core/auth/models/registration-request';
+import { ApiResponse } from '@app/core/api/api-response.model';
+import { AuthRequest } from '@app/core/auth/models/auth-request.model';
 
 
 @Injectable({
@@ -29,44 +31,53 @@ export class AuthService {
   }
 
   /**
-   * Login and set status
-   * @param email
-   * @param password
+   * Return token from storage
+   * @returns {string}
    */
-  public login(email: string, password: string): Observable<any> {
-    this.logout();
+  public get token(): string {
+    return this.storage.getItem('access-token');
+  }
 
-    return this.http.post<AuthResponse>('/auth/login', {
-      email: email,
-      password: password
-    })
+  /**
+   * Return token from storage
+   * @returns {string}
+   */
+  public get userId(): string {
+    const authStatus = this.authStatus.getValue();
+    return authStatus.user && authStatus.user._id ? authStatus.user._id : null;
+  }
+
+  /**
+   * Login and set status
+   * @param authRequest
+   */
+  public login(authRequest: AuthRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>('/auth/login', authRequest)
       .pipe(
         tap((res: AuthResponse) => {
-          if (res.success === true) {
-            this.setToken(res.data.token);
-            this.authStatus.next({
-              isAuthenticated: true,
-              user: res.data.user
-            });
-          }
+          this.setAuthStatus(res);
         })
       );
   }
 
-  public check(): Observable<any> {
+  /**
+   * Check user auth
+   */
+  public check(): Observable<AuthResponse> {
     return this.http.get<AuthResponse>('/auth/check')
       .pipe(
         tap((res: AuthResponse) => {
-          if (res.success === true) {
-            this.authStatus.next({
-              isAuthenticated: true,
-              user: null
-            });
-          } else {
-            this.authStatus.next(defaultAuthStatus);
-          }
+          this.setAuthStatus(res);
         })
       );
+  }
+
+  /**
+   * Registration
+   * @param registrationRequest
+   */
+  public registration(registrationRequest: RegistrationRequest): Observable<ApiResponse> {
+    return this.http.post<ApiResponse>('/auth/registration', registrationRequest);
   }
 
   /**
@@ -78,11 +89,18 @@ export class AuthService {
   }
 
   /**
-   * Return token from storage
-   * @returns {string}
+   * Set auth status
+   * @param res
    */
-  public getToken(): string {
-    return this.storage.getItem('access-token');
+  private setAuthStatus(res: AuthResponse): void {
+    this.authStatus.next({
+      isAuthenticated: res.success,
+      ...res.data.user ? {user: res.data.user} : {}
+    });
+
+    if (res.data && res.data.token) {
+      this.setToken(res.data.token);
+    }
   }
 
   /**

@@ -7,9 +7,22 @@ import * as helmet from 'helmet';
 import * as compression from 'compression';
 
 
-export class ExpressConfig {
+class ExpressConfig {
 
-  static init(app: express.Application): void {
+  private static _instance: ExpressConfig;
+
+  private constructor() {
+  }
+
+  static get instance(): ExpressConfig {
+    if (!this._instance) {
+      this._instance = new ExpressConfig();
+    }
+
+    return this._instance;
+  }
+
+  init(app: express.Application): void {
     app.set('port', (process.env.PORT || 3000));
 
     app.use(morgan('dev'));
@@ -21,3 +34,8 @@ export class ExpressConfig {
     app.use('/', express.static(path.join(__dirname, '../client')));
   }
 }
+
+
+const ExpressConfigInstance = ExpressConfig.instance;
+
+export { ExpressConfigInstance as ExpressConfig };

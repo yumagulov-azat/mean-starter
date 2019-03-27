@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ApiResponse } from '@app/core/models/api-response.model';
+import { ApiResponse } from '@app/core/api/api-response.model';
 
 @Component({
   selector: 'app-things',
@@ -16,8 +16,8 @@ export class ThingsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.http.get('/api/v1/things')
-      .subscribe((res: ApiResponse) => this.things = res.data)
+    this.http.get('/things')
+      .subscribe((res: ApiResponse) => this.things = res.data);
   }
 
 }

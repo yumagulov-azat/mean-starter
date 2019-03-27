@@ -1,0 +1,13 @@
+<div class="app-user-auth-form-wrapper">
+  <mat-card class="mat-elevation-z10" [@slideIn]>
+    <header class="app-user-auth-form-wrapper__header">
+      <div class="app-user-auth-form-wrapper__header__icon">
+        <mat-icon color="accent">person_outline</mat-icon>
+      </div>
+      <div class="app-user-auth-form-wrapper__header__name mat-h1">
+        {{ name }}
+      </div>
+    </header>
+    <ng-content></ng-content>
+  </mat-card>
+</div>

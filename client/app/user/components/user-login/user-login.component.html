@@ -1,36 +1,32 @@
-<div class="app-user-login" *ngIf="form">
-  <mat-card class="mat-elevation-z10">
-    <mat-icon class="app-user-login__user-icon">person_outline</mat-icon>
+<app-user-auth-form-wrapper
+  [name]="'Login'">
+  <form
+    [formGroup]="form"
+    (submit)="$event.preventDefault(); login();">
 
-    <form
-      [formGroup]="form"
-      (submit)="$event.preventDefault(); login();">
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email">
+      <mat-icon matSuffix>alternate_email</mat-icon>
+    </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput placeholder="email@email.com" formControlName="email">
-        <mat-icon matSuffix>alternate_email</mat-icon>
-      </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password">
+    </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Password</mat-label>
-        <input matInput placeholder="********" formControlName="password">
-        <mat-icon matSuffix>visibility_off</mat-icon>
-      </mat-form-field>
+    <div class="app-user-auth-form-wrapper__errors" [ngSwitch]="error" *ngIf="error">
+      <mat-error *ngSwitchCase="'UNAUTHORIZED_ERROR'">Auth failed</mat-error>
+      <mat-error *ngSwitchCase="'USER_NOT_FOUND_ERROR'">User not found</mat-error>
+      <mat-error *ngSwitchCase="'WRONG_PASSWORD_ERROR'">Wrong password</mat-error>
+    </div>
 
-      <button
-        type="submit"
-        mat-raised-button
-        color="primary"
-        [disabled]="form.status === 'INVALID'">
-        Login
-      </button>
-
-      <div [ngSwitch]="error">
-        <ng-container *ngSwitchCase="'UNAUTHORIZED_ERROR'">Auth failed</ng-container>
-        <ng-container *ngSwitchCase="'USER_NOT_FOUND_ERROR'">User not found</ng-container>
-        <ng-container *ngSwitchCase="'WRONG_PASSWORD_ERROR'">Wrong password</ng-container>
-      </div>
-    </form>
-  </mat-card>
-</div>
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      [disabled]="form.status === 'INVALID'">
+      Login
+    </button>
+  </form>
+</app-user-auth-form-wrapper>

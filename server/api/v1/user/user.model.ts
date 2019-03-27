@@ -9,7 +9,7 @@ export interface IUser extends mongoose.Document {
   email: string;
   password: string;
 
-  comparePassword(password: string, cg: Function): any;
+  comparePassword(password: string, callback: Function): any;
 }
 
 
@@ -58,12 +58,15 @@ UserSchema.pre<IUser>('save', function (next: NextFunction) {
  * @param callback
  */
 (UserSchema.methods as IUser).comparePassword = function (password, callback) {
+  console.log(password, this.password)
   CryptWrapper
     .comparePassword(password, this.password)
     .then((res: boolean) => {
+      console.log(res)
       callback(null, res);
     })
     .catch((err) => {
+      console.log(err)
       callback(err);
     });
 };

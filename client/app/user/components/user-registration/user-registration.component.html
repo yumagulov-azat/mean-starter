@@ -1,3 +1,47 @@
-<p>
-  user-registration works!
-</p>
+<app-user-auth-form-wrapper
+  [name]="'Registration'">
+  <div class="app-user-registration">
+    <form
+      [formGroup]="form"
+      (submit)="$event.preventDefault(); registration();">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" formControlName="name">
+        <mat-icon matSuffix>person_outline</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email">
+        <mat-icon matSuffix>alternate_email</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Confirm password</mat-label>
+        <input matInput type="password" formControlName="repeatPassword">
+        <mat-error *ngIf="form.get('repeatPassword').errors?.match">
+          Passwords do not match
+        </mat-error>
+      </mat-form-field>
+
+      <div class="app-user-auth-form-wrapper__errors" [ngSwitch]="error" *ngIf="error">
+        <mat-error *ngSwitchCase="'USER_ALREADY_EXIST_ERROR'">User already exist</mat-error>
+        <mat-error *ngSwitchCase="'VALIDATION_ERROR'">Validation error</mat-error>
+      </div>
+
+      <button
+        type="submit"
+        mat-raised-button
+        color="primary"
+        [disabled]="form.status === 'INVALID'">
+        Registration
+      </button>
+    </form>
+  </div>
+</app-user-auth-form-wrapper>

@@ -35,3 +35,4 @@ class DBConfig {
 const DbInstance = DBConfig.instance;
 
 export { DbInstance as DBConfig };
+

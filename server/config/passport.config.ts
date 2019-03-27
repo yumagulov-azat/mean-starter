@@ -4,9 +4,22 @@ import { Strategy as JwtStrategy, ExtractJwt, StrategyOptions, VerifiedCallback 
 import { User } from '../api/v1/user/user.model';
 
 
-export class PassportConfig {
+class PassportConfig {
 
-  static init(app: express.Application): void {
+  private static _instance: PassportConfig;
+
+  private constructor() {
+  }
+
+  static get instance(): PassportConfig {
+    if (!this._instance) {
+      this._instance = new PassportConfig();
+    }
+
+    return this._instance;
+  }
+
+  init(app: express.Application): void {
     const options: StrategyOptions = {
       jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('jwt'),
       secretOrKey: process.env.SECRET,
@@ -30,3 +43,6 @@ export class PassportConfig {
   }
 }
 
+const PassportConfigInstance = PassportConfig.instance;
+
+export { PassportConfigInstance as PassportConfig };

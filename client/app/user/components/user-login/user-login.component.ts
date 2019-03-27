@@ -27,27 +27,30 @@ export class UserLoginComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      email: ['1233test@tester.ru33', Validators.required],
+      email: [null, Validators.required],
       password: [null, [Validators.required, Validators.minLength(8)]]
     });
   }
 
   public login(): void {
     this.authService
-      .login(
-        this.form.get('email').value,
-        this.form.get('password').value,
-      )
-      .subscribe((res: AuthResponse) => {
-        if (res.success === true) {
-          this.notificationService.show('Auth success')
-          this.router.navigateByUrl('/');
+      .login({
+        email: this.form.get('email').value,
+        password: this.form.get('password').value,
+      })
+      .subscribe(
+        (res: AuthResponse) => {
+          if (res.success === true) {
+            this.notificationService.show('Auth success');
+            this.router.navigateByUrl('/');
+          }
+        },
+        err => {
+          if (err.error && err.error.type) {
+            this.error = err.error.type;
+          }
         }
-      }, (err) => {
-        if (err.error && err.error.type) {
-          this.error = err.error.type;
-        }
-      });
+      );
   }
 
 }

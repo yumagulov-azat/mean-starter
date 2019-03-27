@@ -3,11 +3,10 @@ import { User } from '@app/core/auth/models/auth-reponse.model';
 
 export interface AuthStatus {
   isAuthenticated: boolean;
-  user: User | null;
+  user?: User;
 }
 
 
 export const defaultAuthStatus: AuthStatus = {
-  isAuthenticated: false,
-  user: null
+  isAuthenticated: false
 };

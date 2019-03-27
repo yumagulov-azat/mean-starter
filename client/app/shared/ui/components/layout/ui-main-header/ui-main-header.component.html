@@ -1,7 +1,9 @@
-<mat-toolbar color="primary" class="app-ui-main-header">
+<mat-toolbar color="primary" class="app-ui-main-header mat-elevation-z4">
+
   <a routerLink="/" class="app-ui-main-header__logo">
     MEAN-starter
   </a>
+
   <ul>
     <li>
       <a routerLink="/" mat-button>Home</a>
@@ -10,23 +12,42 @@
       <a routerLink="/things" mat-button>Things</a>
     </li>
   </ul>
+
   <span class="app-ui-main-header__spacer"></span>
-  <ng-container *ngIf="($authStatus | async) as authStatus">
-    <ng-container *ngIf="authStatus.user">
-      <a routerLink="/user/profile" mat-button>
-        {{ authStatus.user.name || authStatus.user.email }}
-      </a>
+
+  <ul *ngIf="($authStatus | async) as authStatus">
+
+    <!-- Is not authenticated user -->
+    <ng-container *ngIf="!authStatus.isAuthenticated">
+      <li>
+        <a routerLink="/user/login" mat-button>
+          <mat-icon>person</mat-icon>
+          Login
+        </a>
+      </li>
+      <li>
+        <a routerLink="/user/registration" mat-button>
+          <mat-icon>person_add</mat-icon>
+          Registration
+        </a>
+      </li>
     </ng-container>
-    <ul>
-      <li *ngIf="!authStatus.isAuthenticated">
-        <a routerLink="/user/login" mat-button>Login</a>
+
+    <!-- Is authenticated user -->
+    <ng-container *ngIf="authStatus.isAuthenticated">
+      <li *ngIf="authStatus.user">
+        <a routerLink="/user/profile" mat-button>
+          <mat-icon>person</mat-icon>
+          {{ authStatus.user.name || authStatus.user.email }}
+        </a>
       </li>
-      <li *ngIf="!authStatus.isAuthenticated">
-        <a routerLink="/user/registration" mat-button>Registration</a>
+      <li>
+        <button mat-button (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          Logout
+        </button>
       </li>
-      <li *ngIf="authStatus.isAuthenticated">
-        <button mat-button (click)="logout()">Logout</button>
-      </li>
-    </ul>
-  </ng-container>
+    </ng-container>
+
+  </ul>
 </mat-toolbar>

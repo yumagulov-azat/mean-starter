@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanLoad, CanActivateChild, } from '@angular/router';
+import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanLoad, CanActivateChild } from '@angular/router';
 import { Route } from '@angular/compiler/src/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AuthService } from '@app/core/auth/auth.service';
 import { AuthStatus } from '@app/core/auth/models/auth-status.model';
 import { NotificationService } from '@app/core/services/notification.service';
@@ -14,6 +14,7 @@ import { NotificationService } from '@app/core/services/notification.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
+
   protected currentAuthStatus: AuthStatus;
 
   constructor(
@@ -21,9 +22,10 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     protected router: Router,
     protected notificationService: NotificationService
   ) {
-    this.authService.authStatus.subscribe((authStatus: AuthStatus) => {
-      this.currentAuthStatus = authStatus;
-    });
+    this.authService.authStatus
+      .subscribe((authStatus: AuthStatus) => {
+        this.currentAuthStatus = authStatus;
+      });
   }
 
   canLoad(route: Route): boolean | Observable<boolean> | Promise<boolean> {
@@ -38,13 +40,13 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
     return this.checkLogin(childRoute);
   }
 
-  protected checkLogin(route?: ActivatedRouteSnapshot) {
+  protected checkLogin(route?: ActivatedRouteSnapshot): Observable<boolean> {
     if (!this.currentAuthStatus.isAuthenticated) {
       this.router.navigateByUrl('/user/login');
       this.notificationService.show('Auth required');
-      return false;
+      return of(false);
     }
 
-    return true;
+    return of(true);
   }
 }

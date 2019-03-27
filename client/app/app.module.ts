@@ -8,6 +8,7 @@ import { CoreModule } from '@app/core/core.module';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { HomeModule } from '@app/home/home.module';
 import { SharedModule } from '@app/shared/shared.module';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -16,6 +17,7 @@ import { SharedModule } from '@app/shared/shared.module';
     AppComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,

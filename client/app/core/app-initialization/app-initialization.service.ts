@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthService } from '@app/core/auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +13,14 @@ export class AppInitializationService {
 
   /**
    * Return promise for APP_INITIALIZER
-   * @returns {Promise<boolean>}
    */
   public init_app(): Promise<boolean> {
-    return new Promise((resolve, reject) => {
-      this.authService.check()
+    return new Promise((resolve) => {
+      this.authService
+        .check()
         .subscribe(
-          res => resolve(true),
-          err => resolve(true)
+          () => resolve(true),
+          () => resolve(true)
         );
     });
   }
