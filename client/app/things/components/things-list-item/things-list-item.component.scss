@@ -1,0 +1,31 @@
+.app-things-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+
+  &__name {
+    margin-bottom: 0;
+  }
+
+  &__delete {
+    button {
+      opacity: .3;
+      transition: opacity .25s ease, transform .25s ease;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  &:hover {
+    .app-things-list-item {
+      &__delete {
+        button {
+          opacity: .6;
+        }
+      }
+    }
+  }
+}

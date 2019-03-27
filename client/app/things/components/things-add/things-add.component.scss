@@ -1,0 +1,14 @@
+mat-form-field {
+  width: 100%;
+  margin-bottom: 0;
+
+  mat-icon {
+    cursor: pointer;
+    opacity: .6;
+    transition: opacity .25s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

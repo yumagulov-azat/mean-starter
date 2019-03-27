@@ -2,6 +2,16 @@ import { Model } from 'mongoose';
 import { Request, Response } from 'express';
 import { ResponseService } from '../services/response-service';
 import { ErrorCodes } from '../services/response-service/response-service-error-codes';
+import { string } from 'joi';
+
+
+type orderBy = 'ASC' | 'DESC';
+
+
+interface SortQuery {
+  sort_by: string;
+  order_by: orderBy;
+}
 
 
 export class BaseController {
@@ -18,10 +28,19 @@ export class BaseController {
    * @param res
    */
   public getAll = (req: Request, res: Response): void => {
-    this.model.find({}, (err, docs) => {
-      new ResponseService(res)
-        .success(docs);
-    });
+    const sort: any = {};
+
+    if (req.query.sort_by && req.query.order_by) {
+      sort[req.query.sort_by] = req.query.order_by;
+    }
+
+    this.model
+      .find({})
+      .sort(sort)
+      .exec((err, docs) => {
+        new ResponseService(res)
+          .success(docs);
+      });
   };
 
   /**

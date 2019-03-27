@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { HomeComponent } from '@app/home/home.component';
 import { AuthGuard } from '@app/core/auth/auth.guard';
 
@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: HomeComponent
+    component: HomeComponent,
   },
   {
     path: 'user',
@@ -17,14 +17,13 @@ const routes: Routes = [
   {
     path: 'things',
     loadChildren: './things/things.module#ThingsModule',
-    canLoad: [AuthGuard],
     canActivate: [AuthGuard]
   }
 ];
 
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules})],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

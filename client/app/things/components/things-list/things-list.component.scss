@@ -1,0 +1,21 @@
+.app-thing-list {
+  padding: 0 30px 30px 30px;
+
+  &__add-wrap {
+    position: sticky;
+    top: 0px;
+    padding-top: 30px;
+    z-index: 2;
+    background: #F3F3F3;
+  }
+
+  &__add {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+  &__list {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+}

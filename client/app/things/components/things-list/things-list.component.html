@@ -1,0 +1,18 @@
+<div class="app-thing-list">
+
+  <div class="app-thing-list__add-wrap">
+    <div class="app-thing-list__add">
+      <app-things-add
+        (addThing)="addThing($event)">
+      </app-things-add>
+    </div>
+  </div>
+
+  <div class="app-thing-list__list">
+    <app-things-list-item
+      *ngFor="let thing of things; trackBy: trackByFn"
+      [thing]="thing"
+      (deleteThing)="deleteThing($event)">
+    </app-things-list-item>
+  </div>
+</div>

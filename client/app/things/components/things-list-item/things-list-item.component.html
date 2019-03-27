@@ -1,0 +1,13 @@
+<mat-card class="app-things-list-item" [@slideIn]>
+  <div class="app-things-list-item__name mat-h3">
+    {{ thing.name }}
+  </div>
+  <div class="app-things-list-item__delete">
+    <button
+      mat-icon-button
+      color="accent"
+      (click)="emitDeleteThing()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</mat-card>
