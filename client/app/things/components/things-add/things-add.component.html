@@ -2,7 +2,7 @@
   [formGroup]="form"
   (submit)="emitAddThing()">
   <mat-form-field appearance="outline">
-    <mat-label>Add new</mat-label>
+    <mat-label>Add new thing</mat-label>
     <input matInput placeholder="Thing name" type="text" formControlName="name">
     <mat-icon matSuffix (click)="emitAddThing()">add</mat-icon>
   </mat-form-field>

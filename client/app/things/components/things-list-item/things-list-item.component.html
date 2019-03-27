@@ -2,6 +2,9 @@
   <div class="app-things-list-item__name mat-h3">
     {{ thing.name }}
   </div>
+  <div class="app-things-list-item__date">
+    {{ thing.date  | date:'short' }}
+  </div>
   <div class="app-things-list-item__delete">
     <button
       mat-icon-button

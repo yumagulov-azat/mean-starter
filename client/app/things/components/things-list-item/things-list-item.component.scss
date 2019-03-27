@@ -8,6 +8,14 @@
     margin-bottom: 0;
   }
 
+  &__date {
+    margin-left: auto;
+    margin-right: 30px;
+    font-size: 13px;
+    opacity: .6;
+    transition: opacity .25s ease;
+  }
+
   &__delete {
     button {
       opacity: .3;
@@ -25,6 +33,10 @@
         button {
           opacity: .6;
         }
+      }
+
+      &__date {
+        opacity: 1;
       }
     }
   }
