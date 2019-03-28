@@ -2,12 +2,12 @@
 
 Стартер для mean-проектов на TypeScript.
 
-##Stack
-####Frontend
+## Stack
+#### Frontend
 * TypeScript
 * Angular 7
 * Angular Material
-####Backend
+#### Backend
 * TypeScript
 * Node
 * Express
@@ -15,14 +15,14 @@
 * Mongoose
 * Passport
 
-##Реализовано
+## Реализовано
 * REST API, CRUD. Быстрое добавление новых эндпойнтов на основе базовых классов
 * Регистрация и авторизация. Passport, JWT
 * Валидация с Joi
 * Response service
 * Базовая архитектура фронтенда, модуль авторизации
 
-####ToDo
+#### ToDo
 * SSR
 * Actions pattern
 * Tests
