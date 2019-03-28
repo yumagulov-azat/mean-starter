@@ -25,8 +25,10 @@ export class ThingsAddComponent implements OnInit {
   }
 
   public emitAddThing(): void {
-    this.addThing.emit(this.form.value as ThingRequest);
-    this.form.reset();
+    if (this.form.status === 'VALID') {
+      this.addThing.emit(this.form.value as ThingRequest);
+      this.form.reset();
+    }
   }
 
 }

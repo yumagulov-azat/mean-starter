@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 // RxJs
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 // Services
@@ -83,9 +83,10 @@ export class AuthService {
   /**
    * Clear token, logout
    */
-  public logout(): void {
+  public logout(): Observable<any> {
     this.clearToken();
     this.authStatus.next(defaultAuthStatus);
+    return of(null);
   }
 
   /**

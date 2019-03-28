@@ -12,46 +12,46 @@ interface IErrorCodes {
 export const ErrorCodes = {
   COMMON: {
     status: 400,
-    type: 'COMMON_ERROR',
+    type: 'COMMON',
     message: 'Common error',
   },
   BAD_REQUEST: {
     status: 400,
-    type: 'BAD_REQUEST_ERROR',
+    type: 'BAD_REQUEST',
     message: 'Bad request',
   },
   VALIDATION: {
     status: 400,
-    type: 'VALIDATION_ERROR',
+    type: 'VALIDATION',
     message: 'Validation error',
   },
 
   // Authorization errors
   UNAUTHORIZED: {
     status: 401,
-    type: 'UNAUTHORIZED_ERROR',
+    type: 'UNAUTHORIZED',
     message: 'Authentication failed',
   },
   USER_ALREADY_EXIST: {
     status: 401,
-    type: 'USER_ALREADY_EXIST_ERROR',
+    type: 'USER_ALREADY_EXIST',
     message: 'User already exists',
   },
   USER_NOT_FOUND: {
     status: 401,
-    type: 'USER_NOT_FOUND_ERROR',
+    type: 'USER_NOT_FOUND',
     message: 'Authentication failed. User not found',
   },
   WRONG_PASSWORD: {
     status: 401,
-    type: 'WRONG_PASSWORD_ERROR',
+    type: 'WRONG_PASSWORD',
     message: 'Authentication failed. Wrong password',
   },
 
   // DB errors
   DB_DOCUMENT_NOT_FOUND: {
     status: 404,
-    type: 'DB_DOCUMENT_NOT_FOUND_ERROR',
+    type: 'DB_DOCUMENT_NOT_FOUND',
     message: 'Document not found',
   }
 }

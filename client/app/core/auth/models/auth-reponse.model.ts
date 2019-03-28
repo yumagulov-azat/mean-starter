@@ -15,4 +15,4 @@ export interface AuthResponse extends ApiResponse {
   data: AuthResponseData;
 }
 
-export type authError = 'UNAUTHORIZED_ERROR' | 'USER_NOT_FOUND_ERROR' | 'USER_ALREADY_EXIST_ERROR' | 'WRONG_PASSWORD_ERROR';
+export type authError = 'UNAUTHORIZED' | 'USER_NOT_FOUND' | 'USER_ALREADY_EXIST' | 'WRONG_PASSWORD';

@@ -16,9 +16,9 @@
     </mat-form-field>
 
     <div class="app-user-auth-form-wrapper__errors" [ngSwitch]="error" *ngIf="error">
-      <mat-error *ngSwitchCase="'UNAUTHORIZED_ERROR'">Auth failed</mat-error>
-      <mat-error *ngSwitchCase="'USER_NOT_FOUND_ERROR'">User not found</mat-error>
-      <mat-error *ngSwitchCase="'WRONG_PASSWORD_ERROR'">Wrong password</mat-error>
+      <mat-error *ngSwitchCase="'UNAUTHORIZED'">Auth failed</mat-error>
+      <mat-error *ngSwitchCase="'USER_NOT_FOUND'">User not found</mat-error>
+      <mat-error *ngSwitchCase="'WRONG_PASSWORD'">Wrong password</mat-error>
     </div>
 
     <button

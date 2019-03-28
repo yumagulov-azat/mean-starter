@@ -7,7 +7,7 @@
     "build": "ng build --prod",
     "predev": "tsc -p server",
     "dev": "concurrently \"mongod\" \"ng serve --proxy-config proxy.conf.json --open\" \"tsc -w -p server\" \"nodemon dist/server/app.js\"",
-    "prod": "concurrently \"mongod\" \"ng build --aot --prod && tsc -p server && node dist/server/app.js\"",
+    "prod": "ng build --aot --prod && tsc -p server && node dist/server/app.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"

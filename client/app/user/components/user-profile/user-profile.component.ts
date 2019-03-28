@@ -36,7 +36,7 @@ export class UserProfileComponent implements OnInit {
           this.prepareForm(res);
         },
         (err) => {
-          this.error = 'COMMON_ERROR';
+          this.error = 'COMMON';
         }
       );
   }

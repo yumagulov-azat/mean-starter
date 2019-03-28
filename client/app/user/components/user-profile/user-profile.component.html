@@ -2,8 +2,8 @@
   [name]="'Profile'">
   <ng-template #userProfileErrors>
     <div class="app-user-auth-form-wrapper__errors" [ngSwitch]="error" *ngIf="error">
-      <mat-error *ngSwitchCase="'COMMON_ERROR'">Data loading fail</mat-error>
-      <mat-error *ngSwitchCase="'VALIDATION_ERROR'">Validation error</mat-error>
+      <mat-error *ngSwitchCase="'COMMON'">Data loading fail</mat-error>
+      <mat-error *ngSwitchCase="'VALIDATION'">Validation error</mat-error>
     </div>
   </ng-template>
 

@@ -31,8 +31,8 @@
       </mat-form-field>
 
       <div class="app-user-auth-form-wrapper__errors" [ngSwitch]="error" *ngIf="error">
-        <mat-error *ngSwitchCase="'USER_ALREADY_EXIST_ERROR'">User already exist</mat-error>
-        <mat-error *ngSwitchCase="'VALIDATION_ERROR'">Validation error</mat-error>
+        <mat-error *ngSwitchCase="'USER_ALREADY_EXIST'">User already exist</mat-error>
+        <mat-error *ngSwitchCase="'VALIDATION'">Validation error</mat-error>
       </div>
 
       <button
