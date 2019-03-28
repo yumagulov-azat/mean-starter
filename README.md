@@ -2,6 +2,10 @@
 
 Стартер для mean-проектов на TypeScript.
 
+#### Установка
+* npm install
+* Переименовать .env.example в .env
+
 ## Stack
 #### Frontend
 * TypeScript
