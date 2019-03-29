@@ -6,12 +6,12 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 // Services
-import { StorageService } from '@app/core/services/storage.service';
 import { AuthStatus, defaultAuthStatus } from '@app/core/auth/models/auth-status.model';
 import { AuthResponse } from '@app/core/auth/models/auth-reponse.model';
 import { RegistrationRequest } from '@app/core/auth/models/registration-request';
 import { ApiResponse } from '@app/core/api/api-response.model';
 import { AuthRequest } from '@app/core/auth/models/auth-request.model';
+import { AuthTokenService } from '@app/core/auth/auth-token.service';
 
 
 @Injectable({
@@ -25,17 +25,9 @@ export class AuthService {
   public authStatus: BehaviorSubject<AuthStatus> = new BehaviorSubject<AuthStatus>(defaultAuthStatus);
 
   constructor(
-    private storage: StorageService,
     private http: HttpClient,
+    private authTokenService: AuthTokenService
   ) {
-  }
-
-  /**
-   * Return token from storage
-   * @returns {string}
-   */
-  public get token(): string {
-    return this.storage.getItem('access-token');
   }
 
   /**
@@ -84,7 +76,7 @@ export class AuthService {
    * Clear token, logout
    */
   public logout(): Observable<any> {
-    this.clearToken();
+    this.authTokenService.clearToken();
     this.authStatus.next(defaultAuthStatus);
     return of(null);
   }
@@ -100,22 +92,7 @@ export class AuthService {
     });
 
     if (res.data && res.data.token) {
-      this.setToken(res.data.token);
+      this.authTokenService.setToken(res.data.token);
     }
-  }
-
-  /**
-   * Save token to storage
-   * @param {string} accessToken
-   */
-  private setToken(accessToken: string): void {
-    this.storage.setItem('access-token', accessToken);
-  }
-
-  /**
-   * Remove token from storage
-   */
-  private clearToken(): void {
-    this.storage.removeItem('access-token');
   }
 }

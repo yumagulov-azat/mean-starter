@@ -1,26 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { AuthService } from '../auth/auth.service';
-import { environment as env } from '../../../environments/environment';
-import { catchError } from 'rxjs/operators';
-import { NotificationService } from '@app/core/services/notification.service';
 import { Router } from '@angular/router';
-import { string } from 'joi';
+
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+
+import { environment as env } from '../../../environments/environment';
+import { NotificationService } from '@app/core/services/notification.service';
+import { AuthTokenService } from '@app/core/auth/auth-token.service';
 
 
 @Injectable()
 export class ApiHttpInterceptor implements HttpInterceptor {
 
   constructor(
-    private authService: AuthService,
+    private authTokenService: AuthTokenService,
     private notificationService: NotificationService,
     private router: Router
   ) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const accessToken: string = this.authService.token;
+    const accessToken: string = this.authTokenService.getToken();
     const authHeader = {headers: req.headers.set('Authorization', accessToken)};
 
     const transformedReq: HttpRequest<any> = req.clone({

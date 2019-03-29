@@ -63,7 +63,6 @@ export class UserController extends BaseController {
         }
 
         user.comparePassword(req.body.password, function (compareErr, same) {
-
           if (same && !compareErr) {
             const userData = JSON.parse(JSON.stringify(user));
             delete userData.password;
